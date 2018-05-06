@@ -1,0 +1,216 @@
+swagger: "2.0"
+info:
+  description: "This is a specification for Appointment Service. This serice let's the user schedule an appointment with other users in the system"
+  version: "1.0.0"
+  title: "Appointment Service"
+  contact:
+    email: "sushantvairagade@outlook.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8080"
+basePath: /
+tags:
+- name: "user"
+  description: "User Management"
+- name: "appointment"
+  description: "Appointment Managerment"
+schemes:
+- "http"
+paths:
+  /user:
+    post:
+      tags:
+      - "user"
+      summary: "Add a new User"
+      operationId: "addUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User that needs to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid input"
+          examples:
+            Invalid Email: {
+              cause: "Invalid Email",
+              status: "FAILURE"
+            }
+        200:
+          description: "Success"
+          examples:
+            Success: {
+              id: 1,
+              name: "Sushant",
+              email: "sushantvairagade@outlook.com",
+              phone: "+14086681234",
+              notification: "EMAIL"
+            }
+
+    put:
+      tags:
+      - "user"
+      summary: "Update an existing User"
+      operationId: "udpateUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "User that needs to be udpated"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        404:
+          description: "User not found"
+        400:
+          description: "Invalid input"
+
+  /user/{id}:
+    get:
+      tags:
+      - "user"
+      summary: "Find user ID"
+      description: "Returns a single user"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Found User"
+          schema:
+            $ref: "#/definitions/User"
+        404:
+          description: "User not found"
+
+    delete:
+      tags:
+      - "user"
+      summary: "Deletes an user"
+      description: ""
+      operationId: "deleteUser"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "User id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        204:
+          description: "successful operation"
+        404:
+          description: "User not found"
+
+  /appointment:
+    post:
+      tags:
+      - appointment
+      summary: "Create a new Appointment"
+      operationId: "createAppointment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Appointment object that needs to be created"
+        required: true
+        schema:
+          $ref: "#/definitions/Appointment"
+      responses:
+        400:
+          description: "Invalid input"
+          examples:
+            Invalid Email: {
+              cause: "Invalid Email",
+              status: "FAILURE"
+            }
+        200:
+          description: "Success"
+          examples:
+            Success: {
+              id: 1
+            }
+
+definitions:
+  User:
+    type: "object"
+    required:
+    - "name"
+    - "email"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "User Id"
+        example: "20"
+      name:
+        type: "string"
+        description: "Preferred name"
+        example: "Sushant"
+      email:
+        type: "string"
+        description: "User's email address"
+        example: "sushantvairagade@outlook.com"
+      phone:
+        type: "string"
+        description: "User's contact number"
+        example: "+14086685748"
+      notification:
+        type: "string"
+        default: "EMAIL"
+        example: "SMS"
+        description: "User notification preference. [ALL, SMS, EMAIL]"
+
+  Appointment:
+    type: "object"
+    required:
+    - "host"
+    - "from"
+    - "to"
+    - "participants"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Appointment Id"
+        example: "20"
+      host:
+        type: "string"
+        description: "Host's email address"
+        example: "sushantvairagade@outlook.com"
+      from:
+        type: "string"
+        description: "Appointment start date and time"
+        example: "2018-05-03T10:15:30"
+      to:
+        type: "string"
+        description: "Appointment end date and time"
+        example: "2018-05-03T10:45:30"
+      participants:
+        type: "array"
+        items: {
+          type: "string"
+        }
+        description: "List of participant's email address"
+        example: "[sushantvairagade@outlook.com, doe@joe.com]"
+
