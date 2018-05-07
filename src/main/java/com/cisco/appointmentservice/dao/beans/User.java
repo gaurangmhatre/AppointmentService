@@ -89,4 +89,9 @@ public class User {
     public void setOwnedAppointments(List<Appointment> ownedAppointments) {
         this.ownedAppointments = ownedAppointments;
     }
+
+    @Override
+    public String toString() {
+        return getEmail();
+    }
 }

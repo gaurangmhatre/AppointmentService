@@ -11,6 +11,10 @@ public class DateUtil {
         return Timestamp.valueOf(localDateTime);
     }
 
+    public static LocalDateTime getLocalDateTime(Timestamp timestamp, ZoneId zoneId) {
+        return timestamp.toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(zoneId).toLocalDateTime();
+    }
+
     public static LocalDateTime getLocalDateTimeAtUTC(LocalDateTime localDateTime, ZoneId zone) {
         return localDateTime.atZone(zone).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
     }

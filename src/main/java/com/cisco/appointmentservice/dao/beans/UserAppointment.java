@@ -11,11 +11,11 @@ public class UserAppointment {
 
     @Id
     @Column
-    private String userId;
+    private Long userId;
 
     @Id
     @Column
-    private String appointmentId;
+    private Long appointmentId;
 
     @Id
     @Column
@@ -23,19 +23,19 @@ public class UserAppointment {
     private String status;
 
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getAppointmentId() {
+    public Long getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(String appointmentId) {
+    public void setAppointmentId(Long appointmentId) {
         this.appointmentId = appointmentId;
     }
 

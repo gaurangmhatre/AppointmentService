@@ -136,6 +136,11 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/Appointment"
+      - in: "header"
+        name: "X-zone"
+        description: "Local time zone of the requestor"
+        required: true
+        type: "string"
       responses:
         400:
           description: "Invalid input"
@@ -144,13 +149,136 @@ paths:
               cause: "Invalid Email",
               status: "FAILURE"
             }
-        200:
+        201:
           description: "Success"
           examples:
             Success: {
-              id: 1
+              "id": 13,
+              "host": "sushantvairagade@outlook.com",
+              "from": "2018-05-07T20:59:00",
+              "to": "2018-05-07T21:58:00",
+              "participants": [
+                "sushantvairagade1@outlook.com",
+                "sushantvairagade@outlook.com"],
+              "allowOverlap": true
+            }
+    put:
+      tags:
+      - appointment
+      summary: "Update an existing Appointment"
+      operationId: "updateAppointment"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Appointment object that needs to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Appointment"
+      - in: "header"
+        name: "X-zone"
+        description: "Local time zone of the requestor"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid input"
+          examples:
+            Invalid Email: {
+              cause: "Invalid Email",
+              status: "FAILURE"
+            }
+        201:
+          description: "Success"
+          examples:
+            Success: {
+              "id": 13,
+              "host": "sushantvairagade@outlook.com",
+              "from": "2018-05-07T20:59:00",
+              "to": "2018-05-07T21:58:00",
+              "participants": [
+                "sushantvairagade1@outlook.com",
+                "sushantvairagade@outlook.com"],
+              "allowOverlap": true
             }
 
+  /appointment/{id}:
+    get:
+      tags:
+      - appointment
+      summary: "Get Appointment"
+      operationId: "getAppointment"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Appointment id for object that needs to be created"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "header"
+        name: "X-zone"
+        description: "Local time zone of the requestor"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid input"
+          examples:
+            Invalid Email: {
+              cause: "Invalid Email",
+              status: "FAILURE"
+            }
+        404:
+          description: "Appointment not found"
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Appointment"
+          examples:
+            Success: {
+              "id": 13,
+              "host": "sushantvairagade@outlook.com",
+              "from": "2018-05-07T20:59:00",
+              "to": "2018-05-07T21:58:00",
+              "participants": [
+                "sushantvairagade1@outlook.com",
+                "sushantvairagade@outlook.com"],
+              "allowOverlap": true
+            }
+    delete:
+      tags:
+      - appointment
+      summary: "Cancel an Appointment"
+      operationId: "cancelAppointment"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Appointment id for object that needs to be created"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "query"
+        name: "user"
+        description: "Email address of the requestor"
+        required: true
+        type: "string"
+      responses:
+        404:
+          description: "Meeting not found"
+        400:
+          description: "Invalid input"
+          examples:
+            Invalid Email: {
+              cause: "Invalid Email",
+              status: "FAILURE"
+            }
+        204:
+          description: "Success"
 definitions:
   User:
     type: "object"
@@ -169,6 +297,7 @@ definitions:
         example: "Sushant"
       email:
         type: "string"
+        format: "email"
         description: "User's email address"
         example: "sushantvairagade@outlook.com"
       phone:
@@ -196,21 +325,29 @@ definitions:
         example: "20"
       host:
         type: "string"
+        format: "email"
         description: "Host's email address"
         example: "sushantvairagade@outlook.com"
       from:
         type: "string"
+        format: "date-time"
         description: "Appointment start date and time"
         example: "2018-05-03T10:15:30"
       to:
         type: "string"
+        format: "date-time"
         description: "Appointment end date and time"
         example: "2018-05-03T10:45:30"
       participants:
         type: "array"
         items: {
-          type: "string"
+          type: "string",
+          format: "email"
         }
-        description: "List of participant's email address"
-        example: "[sushantvairagade@outlook.com, doe@joe.com]"
+      allowOverlap:
+        type: boolean
+        description: "Falg to allow participants to have overlapping appointments."
+        default: false
+        example: "false"
+
 

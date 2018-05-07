@@ -1,22 +1,23 @@
 package io.swagger.model;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import java.util.Objects;
 
 /**
  * Appointment
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-05-06T12:04:29.971Z")
-
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-05-06T20:07:41.326Z")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Appointment   {
   @JsonProperty("id")
   private Long id = null;
@@ -25,14 +26,17 @@ public class Appointment   {
   private String host = null;
 
   @JsonProperty("from")
-  private String from = null;
+  private LocalDateTime from = null;
 
   @JsonProperty("to")
-  private String to = null;
+  private LocalDateTime to = null;
 
   @JsonProperty("participants")
   @Valid
   private List<String> participants = new ArrayList<String>();
+
+  @JsonProperty("allowOverlap")
+  private Boolean allowOverlap = false;
 
   public Appointment id(Long id) {
     this.id = id;
@@ -75,7 +79,7 @@ public class Appointment   {
     this.host = host;
   }
 
-  public Appointment from(String from) {
+  public Appointment from(LocalDateTime from) {
     this.from = from;
     return this;
   }
@@ -87,16 +91,17 @@ public class Appointment   {
   @ApiModelProperty(example = "2018-05-03T10:15:30", required = true, value = "Appointment start date and time")
   @NotNull
 
+  @Valid
 
-  public String getFrom() {
+  public LocalDateTime getFrom() {
     return from;
   }
 
-  public void setFrom(String from) {
+  public void setFrom(LocalDateTime from) {
     this.from = from;
   }
 
-  public Appointment to(String to) {
+  public Appointment to(LocalDateTime to) {
     this.to = to;
     return this;
   }
@@ -108,12 +113,13 @@ public class Appointment   {
   @ApiModelProperty(example = "2018-05-03T10:45:30", required = true, value = "Appointment end date and time")
   @NotNull
 
+  @Valid
 
-  public String getTo() {
+  public LocalDateTime getTo() {
     return to;
   }
 
-  public void setTo(String to) {
+  public void setTo(LocalDateTime to) {
     this.to = to;
   }
 
@@ -128,10 +134,10 @@ public class Appointment   {
   }
 
   /**
-   * List of participant's email address
+   * Get participants
    * @return participants
   **/
-  @ApiModelProperty(example = "\"[sushantvairagade@outlook.com, doe@joe.com]\"", required = true, value = "List of participant's email address")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
 
@@ -141,6 +147,26 @@ public class Appointment   {
 
   public void setParticipants(List<String> participants) {
     this.participants = participants;
+  }
+
+  public Appointment allowOverlap(Boolean allowOverlap) {
+    this.allowOverlap = allowOverlap;
+    return this;
+  }
+
+  /**
+   * Falg to allow participants to have overlapping appointments.
+   * @return allowOverlap
+  **/
+  @ApiModelProperty(example = "false", value = "Falg to allow participants to have overlapping appointments.")
+
+
+  public Boolean isAllowOverlap() {
+    return allowOverlap;
+  }
+
+  public void setAllowOverlap(Boolean allowOverlap) {
+    this.allowOverlap = allowOverlap;
   }
 
 
@@ -157,12 +183,13 @@ public class Appointment   {
         Objects.equals(this.host, appointment.host) &&
         Objects.equals(this.from, appointment.from) &&
         Objects.equals(this.to, appointment.to) &&
-        Objects.equals(this.participants, appointment.participants);
+        Objects.equals(this.participants, appointment.participants) &&
+        Objects.equals(this.allowOverlap, appointment.allowOverlap);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, host, from, to, participants);
+    return Objects.hash(id, host, from, to, participants, allowOverlap);
   }
 
   @Override
@@ -175,6 +202,7 @@ public class Appointment   {
     sb.append("    from: ").append(toIndentedString(from)).append("\n");
     sb.append("    to: ").append(toIndentedString(to)).append("\n");
     sb.append("    participants: ").append(toIndentedString(participants)).append("\n");
+    sb.append("    allowOverlap: ").append(toIndentedString(allowOverlap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

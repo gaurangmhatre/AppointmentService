@@ -20,7 +20,7 @@ public class UserController {
     public ResponseEntity<Object> getUser(@PathVariable(name = "id") Long id) {
         try {
             User user = userService.getUser(id);
-            return ResponseEntity.status(HttpStatus.OK).body(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
         } catch (BusinessException be) {
             return ResponseEntity.status(be.getCode()).body(ServiceUtil.buildErrorResponse(be.getMessage()));
         } catch (Exception e) {

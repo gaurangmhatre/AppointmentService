@@ -7,26 +7,26 @@ import java.io.Serializable;
 public class UserAppointmentId implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String userId;
-    private String appointmentId;
+    private Long userId;
+    private Long appointmentId;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public String getAppointmentId() {
+    public Long getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(String appointmentId) {
+    public void setAppointmentId(Long appointmentId) {
         this.appointmentId = appointmentId;
     }
 
