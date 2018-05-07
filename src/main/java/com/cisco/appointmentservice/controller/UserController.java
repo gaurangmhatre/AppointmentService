@@ -33,8 +33,6 @@ public class UserController implements UserApi {
     @Override
     public ResponseEntity<Object> createUser(@ApiParam(value = "User that needs to be created" ,required=true ) @Valid @RequestBody User user) {
         try {
-            ServiceUtil.validateEmail(user.getEmail());
-            ServiceUtil.validateUserPref(user.getNotification());
             User newUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.OK).body(newUser);
         } catch (BusinessException be) {
@@ -47,8 +45,6 @@ public class UserController implements UserApi {
     @Override
     public ResponseEntity<Object> updateUser(@RequestBody User user) {
         try {
-            ServiceUtil.validateEmail(user.getEmail());
-            ServiceUtil.validateUserPref(user.getNotification());
             User newUser = userService.updateUser(user);
             return ResponseEntity.status(HttpStatus.OK).body(newUser);
         } catch (BusinessException be) {

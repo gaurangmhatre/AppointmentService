@@ -19,7 +19,6 @@ public class AppointmentController implements AppointmentApi {
     @Override
     public ResponseEntity<Object> createAppointment(@RequestBody Appointment appointment, @RequestHeader(value="X-zone") String xZone) {
         try {
-            ServiceUtil.validateAppointment(appointment);
             ZoneId zoneId = ServiceUtil.getZoneId(xZone);
             Appointment newAppointment = appointmentService.createAppointment(appointment, zoneId);
             return ResponseEntity.status(HttpStatus.CREATED).body(newAppointment);
@@ -33,7 +32,6 @@ public class AppointmentController implements AppointmentApi {
     @Override
     public ResponseEntity<Object> updateAppointment(@RequestBody Appointment appointment, @RequestHeader(value="X-zone") String xZone) {
         try {
-            ServiceUtil.validateAppointmentForUpdate(appointment);
             ZoneId zoneId = ServiceUtil.getZoneId(xZone);
             Appointment newAppointment = appointmentService.updateAppointment(appointment, zoneId);
             return ResponseEntity.status(HttpStatus.CREATED).body(newAppointment);
@@ -60,7 +58,6 @@ public class AppointmentController implements AppointmentApi {
     @Override
     public ResponseEntity<Object> cancelAppointment(@PathVariable("id") Long id, @RequestParam(value = "user") String user) {
         try {
-            ServiceUtil.validateEmail(user);
             appointmentService.cancelAppointment(id, user);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (BusinessException be) {

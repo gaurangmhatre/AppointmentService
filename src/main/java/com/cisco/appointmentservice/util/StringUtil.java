@@ -9,6 +9,8 @@ public class StringUtil {
             Pattern.compile("^[A-Z0-9.]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public static boolean validateEmail(String email) {
+        if (null == email)
+            return false;
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
     }

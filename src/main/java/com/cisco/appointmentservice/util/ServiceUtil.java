@@ -40,10 +40,10 @@ public class ServiceUtil {
 
 
     public static void validateAppointment(Appointment appointment) throws BusinessException {
-        validateEmail(appointment.getHost());
         if(appointment.getFrom() == null || appointment.getTo() == null || appointment.getHost() == null || appointment.getParticipants() == null) {
             throw INVALID_APPOINTMENT_REQUEST;
         } else {
+            validateEmail(appointment.getHost());
             if(appointment.getFrom().isAfter(appointment.getTo()) || appointment.getFrom().isEqual(appointment.getTo())) {
                 throw INVALID_APPOINTMENT_DATES;
             }

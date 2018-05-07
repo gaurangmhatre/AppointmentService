@@ -4,6 +4,7 @@ import com.cisco.appointmentservice.dao.UserDao;
 import com.cisco.appointmentservice.exception.BusinessException;
 import com.cisco.appointmentservice.mapstruct.UserMapper;
 import com.cisco.appointmentservice.service.UserService;
+import com.cisco.appointmentservice.util.ServiceUtil;
 import io.swagger.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) throws BusinessException {
+        ServiceUtil.validateEmail(user.getEmail());
+        ServiceUtil.validateUserPref(user.getNotification());
         try {
             com.cisco.appointmentservice.dao.beans.User userBean = UserMapper.INSTANCE.getUserBean(user);
             userBean = userDao.save(userBean);
@@ -63,6 +66,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) throws BusinessException {
+        ServiceUtil.validateEmail(user.getEmail());
+        ServiceUtil.validateUserPref(user.getNotification());
+
         try {
             if(userDao.existsById(user.getId())) {
                 com.cisco.appointmentservice.dao.beans.User userBean = UserMapper.INSTANCE.getUserBean(user);

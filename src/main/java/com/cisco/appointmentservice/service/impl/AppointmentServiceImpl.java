@@ -5,6 +5,7 @@ import com.cisco.appointmentservice.dao.UserDao;
 import com.cisco.appointmentservice.dao.beans.User;
 import com.cisco.appointmentservice.mapstruct.AppointmentMapper;
 import com.cisco.appointmentservice.util.DateUtil;
+import com.cisco.appointmentservice.util.ServiceUtil;
 import io.swagger.model.Appointment;
 import com.cisco.appointmentservice.exception.BusinessException;
 import com.cisco.appointmentservice.service.AppointmentService;
@@ -31,6 +32,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment createAppointment(Appointment appointment, ZoneId zoneId) throws BusinessException {
+        ServiceUtil.validateAppointment(appointment);
         User host = userDao.findByEmail(appointment.getHost());
         if(host == null) {
             throw HOST_NOT_FOUND;
@@ -90,6 +92,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment updateAppointment(Appointment appointment, ZoneId zoneId) throws BusinessException {
+        ServiceUtil.validateAppointmentForUpdate(appointment);
         Optional<com.cisco.appointmentservice.dao.beans.Appointment> appointmentResult = appointmentDao.findById(appointment.getId());
         if(appointmentResult.isPresent()) {
             com.cisco.appointmentservice.dao.beans.Appointment appointmentBean = appointmentResult.get();
@@ -114,6 +117,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void cancelAppointment(Long id, String host) throws BusinessException {
+        ServiceUtil.validateEmail(host);
         Optional<com.cisco.appointmentservice.dao.beans.Appointment> appointmentResult = appointmentDao.findById(id);
         if(appointmentResult.isPresent()) {
             com.cisco.appointmentservice.dao.beans.Appointment appointmentBean = appointmentResult.get();
