@@ -14,7 +14,7 @@ tags:
 - name: "user"
   description: "User Management"
 - name: "appointment"
-  description: "Appointment Managerment"
+  description: "Appointment Management"
 schemes:
 - "http"
 paths:
@@ -23,7 +23,7 @@ paths:
       tags:
       - "user"
       summary: "Add a new User"
-      operationId: "addUser"
+      operationId: "createUser"
       consumes:
       - "application/json"
       produces:
@@ -58,7 +58,7 @@ paths:
       tags:
       - "user"
       summary: "Update an existing User"
-      operationId: "udpateUser"
+      operationId: "updateUser"
       consumes:
       - "application/json"
       produces:
@@ -66,7 +66,7 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "User that needs to be udpated"
+        description: "User that needs to be updated"
         required: true
         schema:
           $ref: "#/definitions/User"
@@ -346,7 +346,7 @@ definitions:
         }
       allowOverlap:
         type: boolean
-        description: "Falg to allow participants to have overlapping appointments."
+        description: "Flag to allow participants to have overlapping appointments."
         default: false
         example: "false"
 

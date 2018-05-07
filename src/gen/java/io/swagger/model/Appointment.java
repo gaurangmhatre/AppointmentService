@@ -1,7 +1,9 @@
 package io.swagger.model;
 
+import com.cisco.appointmentservice.util.LocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
@@ -26,9 +28,11 @@ public class Appointment   {
   private String host = null;
 
   @JsonProperty("from")
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
   private LocalDateTime from = null;
 
   @JsonProperty("to")
+  @JsonSerialize(using = LocalDateTimeSerializer.class)
   private LocalDateTime to = null;
 
   @JsonProperty("participants")

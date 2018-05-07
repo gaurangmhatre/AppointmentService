@@ -3,20 +3,22 @@ package com.cisco.appointmentservice.controller;
 import com.cisco.appointmentservice.exception.BusinessException;
 import com.cisco.appointmentservice.service.UserService;
 import com.cisco.appointmentservice.util.ServiceUtil;
+import io.swagger.annotations.ApiParam;
 import io.swagger.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("/user")
-public class UserController {
+public class UserController implements UserApi {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{id}")
+    @Override
     public ResponseEntity<Object> getUser(@PathVariable(name = "id") Long id) {
         try {
             User user = userService.getUser(id);
@@ -28,8 +30,8 @@ public class UserController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody User user) {
+    @Override
+    public ResponseEntity<Object> createUser(@ApiParam(value = "User that needs to be created" ,required=true ) @Valid @RequestBody User user) {
         try {
             ServiceUtil.validateEmail(user.getEmail());
             ServiceUtil.validateUserPref(user.getNotification());
@@ -42,7 +44,7 @@ public class UserController {
         }
     }
 
-    @PutMapping
+    @Override
     public ResponseEntity<Object> updateUser(@RequestBody User user) {
         try {
             ServiceUtil.validateEmail(user.getEmail());
@@ -56,7 +58,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Object> deleteUser(@PathVariable(name = "id") Long id) {
         try {
             userService.deleteUser(id);

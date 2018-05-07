@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.ZoneId;
 
 @RestController
-@RequestMapping("/appointment")
-public class AppointmentController {
+public class AppointmentController implements AppointmentApi {
     @Autowired
     private AppointmentService appointmentService;
 
-    @PostMapping
+    @Override
     public ResponseEntity<Object> createAppointment(@RequestBody Appointment appointment, @RequestHeader(value="X-zone") String xZone) {
         try {
             ServiceUtil.validateAppointment(appointment);
@@ -31,7 +30,7 @@ public class AppointmentController {
         }
     }
 
-    @PutMapping
+    @Override
     public ResponseEntity<Object> updateAppointment(@RequestBody Appointment appointment, @RequestHeader(value="X-zone") String xZone) {
         try {
             ServiceUtil.validateAppointmentForUpdate(appointment);
@@ -45,7 +44,7 @@ public class AppointmentController {
         }
     }
 
-    @GetMapping("/{id}")
+    @Override
     public ResponseEntity<Object> getAppointment(@PathVariable("id") Long id, @RequestHeader(value="X-zone") String xZone) {
         try {
             ZoneId zoneId = ServiceUtil.getZoneId(xZone);
@@ -58,7 +57,7 @@ public class AppointmentController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<Object> cancelAppointment(@PathVariable("id") Long id, @RequestParam(value = "user") String user) {
         try {
             ServiceUtil.validateEmail(user);
